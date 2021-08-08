@@ -1,7 +1,7 @@
 extends Node2D
 
 export (int) var grid_width = 10
-export (int) var grid_heigth = 15
+export (int) var grid_heigth = 20
 export (int) var cell_size = 64
 export (NodePath) var grid_path
 export (NodePath) var timer_path
@@ -9,9 +9,13 @@ export (NodePath) var timer_path
 var bounds
 var shapes
 var tile_id
+signal killed
 
 var grid : TileMap
 var timer : Timer
+
+var move_counter
+export var move_cooldown = 0.1
 
 var blocks = [["Block1", "Block2", "Block3", "Block4"],
 				["Block5", "Block6", "Block7", "Block8"],
@@ -24,9 +28,11 @@ func _ready():
 	grid = get_node(grid_path)
 	timer = get_node(timer_path)
 	timer.connect("timeout", self, "process_timer")
+	move_counter = 0
 
 
 func _process(delta):
+	# Rotate
 	var rot_dir = 0
 	if Input.is_action_just_pressed("rotate_left"):
 		rot_dir += 1
@@ -37,20 +43,26 @@ func _process(delta):
 	elif rot_dir == -1:
 		prev_shape()
 	
-	var move_dir = 0
-	if Input.is_action_just_pressed("ui_left"):
-		move_dir -= 1
-	elif Input.is_action_just_pressed("ui_right"):
-		move_dir += 1
-	if move_dir == 1:
-		position.x += cell_size
-	elif move_dir == -1:
-		position.x -= cell_size
-	position.x = clamp(position.x, 
-					grid.position.x - (bounds[current_shape][0] * cell_size) , 
-					grid.position.x + (grid_width * cell_size) - 
-						(bounds[current_shape][1] * cell_size))
-	
+	# Move
+	move_counter -= delta
+	if move_counter <= 0:
+		var move_dir = 0
+		if Input.is_action_pressed("ui_left"):
+			move_dir -= 1
+		elif Input.is_action_pressed("ui_right"):
+			move_dir += 1
+		if move_dir == 1:
+			position.x += cell_size
+			move_counter = move_cooldown
+		elif move_dir == -1:
+			position.x -= cell_size
+			move_counter = move_cooldown
+		position.x = clamp(position.x, 
+						grid.position.x - (bounds[current_shape][0] * cell_size) , 
+						grid.position.x + (grid_width * cell_size) - 
+							(bounds[current_shape][1] * cell_size))
+		
+	# Drop
 	if Input.is_action_just_pressed("ui_select"):
 		timer.stop()
 		timer.wait_time = 0.01
@@ -106,10 +118,10 @@ func kill_block():
 				grid.set_cell(grid_position.x + col, 
 							grid_position.y + row, tile_id)
 	queue_free()
+	emit_signal("killed")
 
 
 func process_timer():
-	print(grid.world_to_map(position))
 	position.y += cell_size
 	# If the block can no longer move down:
 	# revert the position change and kill it
