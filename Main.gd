@@ -3,24 +3,29 @@ extends TileMap
 export (int) var grid_width = 10
 export (int) var grid_heigth = 20
 
+var speed
+
 var blocks = []
-var active_Block : Node2D
+var active_block : Node2D
 
 signal cleared_row(row)
 
 func _ready():
 	randomize()
+	speed = 1
 	blocks.append(load("res://LBlock.tscn"))
 	blocks.append(load("res://JBlock.tscn"))
 	create_new_block()
+	$Timer.start()
 
 
 func create_new_block():
-	active_Block = blocks[randi()%2].instance()
-	active_Block.grid_path = self.get_path()
-	add_child(active_Block)
-	active_Block.position = Vector2(64*5, 0)
-	active_Block.connect("killed", self, "block_killed")
+	active_block = blocks[randi() % 2].instance()
+	active_block.grid_path = self.get_path()
+	add_child(active_block)
+	active_block.position = Vector2(64 * 5, 0)
+	active_block.set_timer_wait_time(speed)
+	active_block.connect("killed", self, "block_killed")
 
 
 func block_killed():
@@ -57,3 +62,7 @@ func update_grid():
 		for row in range(cleared_rows.size() - 1):
 			clear_row(cleared_rows[row])
 		yield(clear_row(cleared_rows[cleared_rows.size() - 1]), "completed")
+
+
+func _on_Timer_timeout():
+	speed = speed / 1.5

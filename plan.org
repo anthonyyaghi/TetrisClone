@@ -1,0 +1,14 @@
+* TODO All block [0/5]
+** TODO I
+** TODO T
+** TODO S
+** TODO Z
+** TODO O
+* TODO Difficulty levels
+* TODO Game over logic
+* TODO Next block and Hold queue [0/2]
+** TODO show what the next block will be
+** TODO Implement Hold queue
+* TODO UI
+* TODO Main Menu
+* TODO Multiplayer

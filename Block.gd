@@ -128,3 +128,9 @@ func process_timer():
 	if not check_shape():
 		position.y -= cell_size
 		kill_block()
+
+
+func set_timer_wait_time(time):
+	timer.stop()
+	timer.wait_time = time
+	timer.start()
