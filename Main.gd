@@ -15,12 +15,13 @@ func _ready():
 	speed = 1
 	blocks.append(load("res://LBlock.tscn"))
 	blocks.append(load("res://JBlock.tscn"))
+	blocks.append(load("res://IBlock.tscn"))
 	create_new_block()
 	$Timer.start()
 
 
 func create_new_block():
-	active_block = blocks[randi() % 2].instance()
+	active_block = blocks[randi() % blocks.size()].instance()
 	active_block.grid_path = self.get_path()
 	add_child(active_block)
 	active_block.position = Vector2(64 * 5, 0)
