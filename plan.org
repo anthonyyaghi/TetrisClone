@@ -1,11 +1,17 @@
-* TODO All block [0/5]
+* TODO All block [5/6]
 ** Reference Image
-*** [[file:refrence.jpg]]
-** TODO I
-** TODO T
-** TODO S
-** TODO Z
-** TODO O
+*** [[file:reference.jpg]]
+** DONE I
+   CLOSED: [2021-08-11 Wed 18:30]
+** DONE T
+   CLOSED: [2021-08-11 Wed 18:35]
+** DONE S
+   CLOSED: [2021-08-11 Wed 18:43]
+** DONE Z
+   CLOSED: [2021-08-11 Wed 18:52]
+** DONE O
+   CLOSED: [2021-08-11 Wed 18:54]
+** TODO Add different color/graphics for each block
 * TODO Difficulty levels
 * TODO Game over logic
 * TODO Next block and Hold queue [0/2]
@@ -14,3 +20,10 @@
 * TODO UI
 * TODO Main Menu
 * TODO Multiplayer
+
+
+
+
+* BUGs [1/1]
+** DONE ONGOING Blocks can move sideways and rotate into each other
+   CLOSED: [2021-08-14 Sat 08:48]

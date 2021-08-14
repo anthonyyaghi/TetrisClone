@@ -13,9 +13,13 @@ signal cleared_row(row)
 func _ready():
 	randomize()
 	speed = 1
-	blocks.append(load("res://LBlock.tscn"))
-	blocks.append(load("res://JBlock.tscn"))
-	blocks.append(load("res://IBlock.tscn"))
+	blocks.append(load("res://Blocks/LBlock.tscn"))
+	blocks.append(load("res://Blocks/JBlock.tscn"))
+	blocks.append(load("res://Blocks/IBlock.tscn"))
+	blocks.append(load("res://Blocks/TBlock.tscn"))
+	blocks.append(load("res://Blocks/SBlock.tscn"))
+	blocks.append(load("res://Blocks/ZBlock.tscn"))
+	blocks.append(load("res://Blocks/OBlock.tscn"))
 	create_new_block()
 	$Timer.start()
 

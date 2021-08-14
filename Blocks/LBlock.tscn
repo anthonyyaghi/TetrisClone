@@ -1,0 +1,89 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Blocks/LBlock.gd" type="Script" id=1]
+[ext_resource path="res://assets/red_square.png" type="Texture" id=2]
+
+[node name="LBlock" type="Node2D"]
+script = ExtResource( 1 )
+timer_path = NodePath("Timer")
+
+[node name="Block1" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block2" type="Sprite" parent="."]
+position = Vector2( 64, 0 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block3" type="Sprite" parent="."]
+position = Vector2( 128, 0 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block4" type="Sprite" parent="."]
+position = Vector2( 192, 0 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block5" type="Sprite" parent="."]
+position = Vector2( 0, 64 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block6" type="Sprite" parent="."]
+position = Vector2( 64, 64 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block7" type="Sprite" parent="."]
+position = Vector2( 128, 64 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block8" type="Sprite" parent="."]
+position = Vector2( 192, 64 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block9" type="Sprite" parent="."]
+position = Vector2( 0, 128 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block10" type="Sprite" parent="."]
+position = Vector2( 64, 128 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block11" type="Sprite" parent="."]
+position = Vector2( 128, 128 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block12" type="Sprite" parent="."]
+position = Vector2( 192, 128 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block13" type="Sprite" parent="."]
+position = Vector2( 0, 192 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block14" type="Sprite" parent="."]
+position = Vector2( 64, 192 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block15" type="Sprite" parent="."]
+position = Vector2( 128, 192 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Block16" type="Sprite" parent="."]
+position = Vector2( 192, 192 )
+texture = ExtResource( 2 )
+offset = Vector2( 32, 32 )
+
+[node name="Timer" type="Timer" parent="."]

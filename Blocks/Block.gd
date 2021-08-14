@@ -15,7 +15,7 @@ var grid : TileMap
 var timer : Timer
 
 var move_counter
-export var move_cooldown = 0.1
+export var move_cooldown = 0.07
 
 var blocks = [["Block1", "Block2", "Block3", "Block4"],
 				["Block5", "Block6", "Block7", "Block8"],
@@ -51,12 +51,12 @@ func _process(delta):
 			move_dir -= 1
 		elif Input.is_action_pressed("ui_right"):
 			move_dir += 1
-		if move_dir == 1:
-			position.x += cell_size
-			move_counter = move_cooldown
-		elif move_dir == -1:
-			position.x -= cell_size
-			move_counter = move_cooldown
+		if move_dir == 1 or move_dir == -1 :
+			position.x += cell_size * move_dir
+			if not check_shape():
+				position.x -= cell_size * move_dir
+			else:
+				move_counter = move_cooldown
 		position.x = clamp(position.x, 
 						grid.position.x - (bounds[current_shape][0] * cell_size) , 
 						grid.position.x + (grid_width * cell_size) - 
@@ -80,14 +80,19 @@ func prev_shape():
 
 
 func change_shape(shape):
+	var old_shape = current_shape
 	current_shape = shape
-	var mat = shapes[current_shape]
-	for row in range(4):
-		for col in range(4):
-			if mat[row][col] == 1:
-				get_node(blocks[row][col]).visible = true
-			else:
-				get_node(blocks[row][col]).visible = false
+	
+	if not check_shape():
+		current_shape = old_shape
+	else:
+		var mat = shapes[current_shape]
+		for row in range(4):
+			for col in range(4):
+				if mat[row][col] == 1:
+					get_node(blocks[row][col]).visible = true
+				else:
+					get_node(blocks[row][col]).visible = false
 
 
 func clear_shape():
