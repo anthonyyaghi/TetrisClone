@@ -13,7 +13,29 @@
    CLOSED: [2021-08-11 Wed 18:54]
 ** DONE Add different color/graphics for each block
    CLOSED: [2021-08-23 Mon 19:22]
-* TODO Difficulty levels
+* TODO Difficulty levels [2/2]
+| Level | sec/grid |
+|-------+----------|
+|    00 |     0.72 |
+|    01 |     0.64 |
+|    02 |     0.58 |
+|    03 |      0.5 |
+|    04 |     0.44 |
+|    05 |     0.36 |
+|    06 |      0.3 |
+|    07 |     0.22 |
+|    08 |     0.14 |
+|    09 |      0.1 |
+| 10-12 |     0.08 |
+| 13-15 |     0.06 |
+| 16-18 |     0.04 |
+|   19+ |     0.02 |
+
+Increase the level each 10 lines cleared
+** DONE Score/Line cleared counter
+   CLOSED: [2021-08-23 Mon 19:42]
+** DONE Implement difficulty table above
+   CLOSED: [2021-08-23 Mon 20:09]
 * TODO Game over logic
 * TODO Next block and Hold queue [0/2]
 ** TODO show what the next block will be
@@ -25,6 +47,7 @@
 
 
 
-* BUGs [1/1]
+* BUGs [1/2]
 ** DONE ONGOING Blocks can move sideways and rotate into each other
    CLOSED: [2021-08-14 Sat 08:48]
+** ONGOING add a 0.5 sec timer that start when the piece reaches the bottom to set finalize the piece location, also reset the timer if the piece is moved or rotated

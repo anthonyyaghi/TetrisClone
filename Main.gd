@@ -8,11 +8,16 @@ var speed
 var blocks = []
 var active_block : Node2D
 
+var score = 0
+var level : int = 7
+var levels = [0.72, 0.64, 0.58, 0.5, 0.44, 0.36, 0.3, 0.22, 0.14, 0.1, 0.08, 
+			0.08, 0.08, 0.06, 0.06, 0.06, 0.04, 0.04, 0.04, 0.02]
+
 signal cleared_row(row)
 
 func _ready():
 	randomize()
-	speed = 1
+	speed = levels[level]
 	blocks.append(load("res://Blocks/LBlock.tscn"))
 	blocks.append(load("res://Blocks/JBlock.tscn"))
 	blocks.append(load("res://Blocks/IBlock.tscn"))
@@ -21,7 +26,6 @@ func _ready():
 	blocks.append(load("res://Blocks/ZBlock.tscn"))
 	blocks.append(load("res://Blocks/OBlock.tscn"))
 	create_new_block()
-	$Timer.start()
 
 
 func create_new_block():
@@ -48,6 +52,20 @@ func clear_row(row):
 	for r in range(row, 0, -1):
 		for col in range(grid_width):
 			set_cell(col, r, get_cell(col, r-1))
+	
+	# Update the score
+	update_score(1)
+
+
+func update_score(increment : int):
+	score += increment
+	var new_level = clamp(score / 10, 0, 19)
+	print("New level: " + str(new_level))
+	print("Old level: " + str(level))
+	if new_level != level:
+		level = new_level
+		speed = levels[level]
+		print("Updated the speed to " + str(speed))
 
 
 func update_grid():
@@ -67,7 +85,3 @@ func update_grid():
 		for row in range(cleared_rows.size() - 1):
 			clear_row(cleared_rows[row])
 		yield(clear_row(cleared_rows[cleared_rows.size() - 1]), "completed")
-
-
-func _on_Timer_timeout():
-	speed = speed / 1.5
