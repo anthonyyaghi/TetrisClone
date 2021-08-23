@@ -22,7 +22,7 @@ func _ready():
 				[0, 1, 0, 0],
 				[0, 0, 0, 0]]
 			]
-	tile_id = 1
+	tile_id = 5
 	change_shape(0)
 	$Timer.wait_time = 1
 	$Timer.start()

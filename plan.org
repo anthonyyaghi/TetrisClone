@@ -1,4 +1,4 @@
-* TODO All block [5/6]
+* TODO All block [6/6]
 ** Reference Image
 *** [[file:reference.jpg]]
 ** DONE I
@@ -11,7 +11,8 @@
    CLOSED: [2021-08-11 Wed 18:52]
 ** DONE O
    CLOSED: [2021-08-11 Wed 18:54]
-** TODO Add different color/graphics for each block
+** DONE Add different color/graphics for each block
+   CLOSED: [2021-08-23 Mon 19:22]
 * TODO Difficulty levels
 * TODO Game over logic
 * TODO Next block and Hold queue [0/2]
