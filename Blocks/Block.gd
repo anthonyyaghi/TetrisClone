@@ -17,6 +17,9 @@ var timer : Timer
 var move_counter
 export var move_cooldown = 0.07
 
+enum {MOVING, STOPPED}
+var state
+
 var blocks = [["Block1", "Block2", "Block3", "Block4"],
 				["Block5", "Block6", "Block7", "Block8"],
 				["Block9", "Block10", "Block11", "Block12"],
@@ -29,6 +32,7 @@ func _ready():
 	timer = get_node(timer_path)
 	timer.connect("timeout", self, "process_timer")
 	move_counter = 0
+	state = MOVING
 
 
 func _process(delta):
@@ -57,13 +61,17 @@ func _process(delta):
 				position.x -= cell_size * move_dir
 			else:
 				move_counter = move_cooldown
-		position.x = clamp(position.x, 
-						grid.position.x - (bounds[current_shape][0] * cell_size) , 
-						grid.position.x + (grid_width * cell_size) - 
-							(bounds[current_shape][1] * cell_size))
+				var clamped_pos = clamp(position.x, 
+								grid.position.x - (bounds[current_shape][0] * cell_size) , 
+								grid.position.x + (grid_width * cell_size) - 
+									(bounds[current_shape][1] * cell_size))
+				# move was not reverted reset the timer 
+				if clamped_pos == position.x and state == STOPPED:
+					timer.start()
+				position.x = clamped_pos
 		
 	# Drop
-	if Input.is_action_just_pressed("ui_select"):
+	if Input.is_action_pressed("ui_select"):
 		timer.stop()
 		timer.wait_time = 0.01
 		timer.start()					
@@ -93,6 +101,9 @@ func change_shape(shape):
 					get_node(blocks[row][col]).visible = true
 				else:
 					get_node(blocks[row][col]).visible = false
+		# restart the timer if the block stopped but was still able to rotate
+		if state == STOPPED:
+			timer.start()
 
 
 func clear_shape():
@@ -127,11 +138,15 @@ func kill_block():
 
 
 func process_timer():
-	position.y += cell_size
-	# If the block can no longer move down:
-	# revert the position change and kill it
-	if not check_shape():
-		position.y -= cell_size
+	if state == MOVING:
+		position.y += cell_size
+		# If the block can no longer move down:
+		# revert the position change and start final timer
+		if not check_shape():
+			position.y -= cell_size
+			state = STOPPED
+			set_timer_wait_time(0.5)
+	else:
 		kill_block()
 
 

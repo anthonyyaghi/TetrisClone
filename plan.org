@@ -36,18 +36,27 @@ Increase the level each 10 lines cleared
    CLOSED: [2021-08-23 Mon 19:42]
 ** DONE Implement difficulty table above
    CLOSED: [2021-08-23 Mon 20:09]
-* TODO Game over logic
+* TODO Game Over [3/3]
+** DONE Detect when the game is over  
+   CLOSED: [2021-08-24 Tue 09:16]
+** DONE Play Game Over animation
+   CLOSED: [2021-08-24 Tue 12:05]
+** DONE Restart Game
+   CLOSED: [2021-08-24 Tue 10:36]
 * TODO Next block and Hold queue [0/2]
 ** TODO show what the next block will be
 ** TODO Implement Hold queue
-* TODO UI
+* TODO User Interface
 * TODO Main Menu
 * TODO Multiplayer
 
 
 
 
-* BUGs [1/2]
+* Bugs [3/3]
 ** DONE ONGOING Blocks can move sideways and rotate into each other
    CLOSED: [2021-08-14 Sat 08:48]
-** ONGOING add a 0.5 sec timer that start when the piece reaches the bottom to set finalize the piece location, also reset the timer if the piece is moved or rotated
+** DONE ONGOING add a 0.5 sec timer that start when the piece reaches the bottom to set finalize the piece location, also reset the timer if the piece is moved or rotated
+   CLOSED: [2021-08-24 Tue 09:02]
+** DONE Fix spawn block position according to reference image
+   CLOSED: [2021-08-24 Tue 09:08]

@@ -5,19 +5,24 @@ export (int) var grid_heigth = 20
 
 var speed
 
+enum {ORANGE_CELL, CYAN_CELL, RED_CELL, BLUE_CELL, PURPLE_CELL, 
+		GREEN_CELL, YELLOW_CELL, GREY_CELL}
+
 var blocks = []
 var active_block : Node2D
 
 var score = 0
-var level : int = 7
+var level : int = 0
 var levels = [0.72, 0.64, 0.58, 0.5, 0.44, 0.36, 0.3, 0.22, 0.14, 0.1, 0.08, 
 			0.08, 0.08, 0.06, 0.06, 0.06, 0.04, 0.04, 0.04, 0.02]
 
 signal cleared_row(row)
 
+enum {PLAYING, GAME_OVER}
+var state
+
 func _ready():
 	randomize()
-	speed = levels[level]
 	blocks.append(load("res://Blocks/LBlock.tscn"))
 	blocks.append(load("res://Blocks/JBlock.tscn"))
 	blocks.append(load("res://Blocks/IBlock.tscn"))
@@ -25,16 +30,44 @@ func _ready():
 	blocks.append(load("res://Blocks/SBlock.tscn"))
 	blocks.append(load("res://Blocks/ZBlock.tscn"))
 	blocks.append(load("res://Blocks/OBlock.tscn"))
-	create_new_block()
+	restart_game()
 
 
 func create_new_block():
-	active_block = blocks[randi() % blocks.size()].instance()
-	active_block.grid_path = self.get_path()
-	add_child(active_block)
-	active_block.position = Vector2(64 * 5, 0)
-	active_block.set_timer_wait_time(speed)
-	active_block.connect("killed", self, "block_killed")
+	if state == PLAYING:
+		active_block = blocks[randi() % blocks.size()].instance()
+		active_block.grid_path = self.get_path()
+		active_block.position = Vector2(64 * 3, 64 * -1)
+		add_child(active_block)
+		# check if a block is already at that position = game over
+		if not active_block.check_shape():
+			active_block
+			yield(game_over(), "completed")
+			return
+			
+		active_block.set_timer_wait_time(speed)
+		active_block.connect("killed", self, "block_killed")
+
+
+func game_over():
+	state = GAME_OVER
+	active_block.queue_free()
+	for row in range(grid_heigth - 1, -1, -1):
+		for col in range(grid_width):
+			set_cell(col, row, GREY_CELL)
+		yield(get_tree().create_timer(0.01), "timeout")
+	restart_game()
+
+
+func restart_game():
+	for row in range(grid_heigth - 1, -1, -1):
+		for col in range(grid_width):
+			set_cell(col, row, -1)
+	score = 0
+	level = 0
+	state = PLAYING
+	speed = levels[level]
+	create_new_block()
 
 
 func block_killed():
