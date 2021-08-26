@@ -3,6 +3,12 @@ extends TileMap
 export (int) var grid_width = 10
 export (int) var grid_heigth = 20
 
+signal score_change(new_score)
+signal level_change(new_level)
+signal next_change(next)
+signal hold_change(hold)
+signal new_game
+
 var speed
 
 enum {ORANGE_CELL, CYAN_CELL, RED_CELL, BLUE_CELL, PURPLE_CELL, 
@@ -10,38 +16,58 @@ enum {ORANGE_CELL, CYAN_CELL, RED_CELL, BLUE_CELL, PURPLE_CELL,
 
 var blocks = []
 var active_block : Node2D
+var active_block_id
 
 var score = 0
 var level : int = 0
 var levels = [0.72, 0.64, 0.58, 0.5, 0.44, 0.36, 0.3, 0.22, 0.14, 0.1, 0.08, 
 			0.08, 0.08, 0.06, 0.06, 0.06, 0.04, 0.04, 0.04, 0.02]
 
-signal cleared_row(row)
+var next_block
 
 enum {PLAYING, GAME_OVER}
 var state
 
+var holded_block_id
+var can_hold
+
 func _ready():
 	randomize()
-	blocks.append(load("res://Blocks/LBlock.tscn"))
-	blocks.append(load("res://Blocks/JBlock.tscn"))
-	blocks.append(load("res://Blocks/IBlock.tscn"))
-	blocks.append(load("res://Blocks/TBlock.tscn"))
-	blocks.append(load("res://Blocks/SBlock.tscn"))
-	blocks.append(load("res://Blocks/ZBlock.tscn"))
-	blocks.append(load("res://Blocks/OBlock.tscn"))
-	restart_game()
+	blocks.append(load("res://blocks/IBlock.tscn"))
+	blocks.append(load("res://blocks/TBlock.tscn"))
+	blocks.append(load("res://blocks/LBlock.tscn"))
+	blocks.append(load("res://blocks/JBlock.tscn"))
+	blocks.append(load("res://blocks/SBlock.tscn"))
+	blocks.append(load("res://blocks/ZBlock.tscn"))
+	blocks.append(load("res://blocks/OBlock.tscn"))
 
 
-func create_new_block():
+func _process(delta):
+	if Input.is_action_just_pressed("hold") and can_hold:
+		var block_id = holded_block_id
+		holded_block_id = active_block_id
+		active_block.queue_free()
+		yield(get_tree(), "idle_frame")
+		create_new_block(block_id)
+		can_hold = false
+		emit_signal("hold_change", holded_block_id)
+
+
+func create_new_block(block_id = -1):
 	if state == PLAYING:
-		active_block = blocks[randi() % blocks.size()].instance()
+		if block_id == -1:
+			active_block_id = next_block
+			random_next_block()
+		else:
+			active_block_id = block_id
+		active_block = blocks[active_block_id].instance()
 		active_block.grid_path = self.get_path()
 		active_block.position = Vector2(64 * 3, 64 * -1)
 		add_child(active_block)
+		can_hold = true
+		
 		# check if a block is already at that position = game over
 		if not active_block.check_shape():
-			active_block
 			yield(game_over(), "completed")
 			return
 			
@@ -56,18 +82,35 @@ func game_over():
 		for col in range(grid_width):
 			set_cell(col, row, GREY_CELL)
 		yield(get_tree().create_timer(0.01), "timeout")
-	restart_game()
+	
+	yield(get_tree().create_timer(0.5), "timeout")
+	
+	for row in range(grid_heigth - 1, -1, -1):
+		for col in range(grid_width):
+			set_cell(col, row, -1)
+		yield(get_tree().create_timer(0.01), "timeout")
+	emit_signal("new_game")
 
 
-func restart_game():
+func start_new_game():
 	for row in range(grid_heigth - 1, -1, -1):
 		for col in range(grid_width):
 			set_cell(col, row, -1)
 	score = 0
+	emit_signal("score_change", score)
 	level = 0
+	emit_signal("level_change", level)
+	random_next_block()
+	holded_block_id = -1
 	state = PLAYING
 	speed = levels[level]
 	create_new_block()
+	emit_signal("new_game")
+
+
+func random_next_block():
+	next_block = randi() % blocks.size()
+	emit_signal("next_change", next_block)
 
 
 func block_killed():
@@ -93,12 +136,12 @@ func clear_row(row):
 func update_score(increment : int):
 	score += increment
 	var new_level = clamp(score / 10, 0, 19)
-	print("New level: " + str(new_level))
-	print("Old level: " + str(level))
 	if new_level != level:
 		level = new_level
 		speed = levels[level]
-		print("Updated the speed to " + str(speed))
+		emit_signal("level_change", level)
+		
+	emit_signal("score_change", score)
 
 
 func update_grid():

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
+   sodipodi:docname="tetris_block.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:snap-grids="true"
+     inkscape:snap-to-guides="true"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="246.07316"
+     inkscape:cy="471.64022"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ff0000;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       id="rect3010"
+       width="91.562988"
+       height="91.563011"
+       x="47.901375"
+       y="88.334763"
+       inkscape:export-filename="/home/ubuntu/GodotProjects/TetrisClone/assets/gray_square.png"
+       inkscape:export-xdpi="17.753899"
+       inkscape:export-ydpi="17.753899" />
+    <path
+       style="fill:#ffffff;stroke:none;stroke-width:0.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:0.54754007"
+       d="M 118.0766,109.72254 139.46437,88.334765 V 179.89778 L 118.0766,158.51001 Z"
+       id="path2035" />
+    <path
+       style="fill:#000000;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:0.70657426"
+       d="M 69.289138,158.51001 H 118.0766 l 21.38777,21.38777 H 47.901375 Z"
+       id="path2037" />
+    <path
+       style="fill:#000000;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:0.52279288"
+       d="M 69.289138,158.51001 47.901375,179.89778 V 88.334765 l 21.387763,21.387775 z"
+       id="path2039" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.80582273;stroke:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 47.901375,88.334763 91.562995,2e-6 -21.38777,21.387775 -48.787462,-2e-5 z"
+       id="path2371"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

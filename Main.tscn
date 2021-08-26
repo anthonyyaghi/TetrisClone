@@ -1,6 +1,5 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Grid.gd" type="Script" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
 [ext_resource path="res://assets/orange_square.png" type="Texture" id=3]
 [ext_resource path="res://assets/cyan_square.png" type="Texture" id=4]
@@ -125,10 +124,7 @@
 7/shapes = [  ]
 7/z_index = 0
 
-[node name="TileMap" type="TileMap"]
+[node name="Map" type="TileMap"]
 tile_set = SubResource( 1 )
 format = 1
 script = ExtResource( 2 )
-
-[node name="Grid" type="Node2D" parent="."]
-script = ExtResource( 1 )

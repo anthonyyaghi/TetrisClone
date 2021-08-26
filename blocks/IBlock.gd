@@ -1,4 +1,4 @@
-extends "res://Blocks/Block.gd"
+extends "res://blocks/Block.gd"
 
 func _ready():
 	bounds = [[0, 4], [2, 3], [0, 4], [2, 3]]

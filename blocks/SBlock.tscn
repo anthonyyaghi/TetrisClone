@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://assets/blue_square.png" type="Texture" id=1]
-[ext_resource path="res://Blocks/JBlock.gd" type="Script" id=2]
+[ext_resource path="res://assets/purple_square.png" type="Texture" id=1]
+[ext_resource path="res://blocks/SBlock.gd" type="Script" id=2]
 
-[node name="JBlock" type="Node2D"]
+[node name="SBlock" type="Node2D"]
 script = ExtResource( 2 )
 timer_path = NodePath("Timer")
 

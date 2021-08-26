@@ -38,13 +38,7 @@ func _ready():
 func _process(delta):
 	# Rotate
 	var rot_dir = 0
-	if Input.is_action_just_pressed("rotate_left"):
-		rot_dir += 1
-	elif Input.is_action_just_pressed("rotate_right"):
-		rot_dir -= 1
-	if rot_dir == 1:
-		next_shape()
-	elif rot_dir == -1:
+	if Input.is_action_just_pressed("rotate"):
 		prev_shape()
 	
 	# Move
@@ -62,16 +56,15 @@ func _process(delta):
 			else:
 				move_counter = move_cooldown
 				var clamped_pos = clamp(position.x, 
-								grid.position.x - (bounds[current_shape][0] * cell_size) , 
-								grid.position.x + (grid_width * cell_size) - 
-									(bounds[current_shape][1] * cell_size))
+								bounds[current_shape][0] * cell_size, 
+								(grid_width * cell_size) - (bounds[current_shape][1] * cell_size))
 				# move was not reverted reset the timer 
 				if clamped_pos == position.x and state == STOPPED:
 					timer.start()
 				position.x = clamped_pos
 		
 	# Drop
-	if Input.is_action_pressed("ui_select"):
+	if Input.is_action_pressed("drop"):
 		timer.stop()
 		timer.wait_time = 0.01
 		timer.start()					
