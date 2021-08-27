@@ -3,6 +3,7 @@
 .import/
 export.cfg
 export_presets.cfg
+release/
 
 # Imported translations (automatically generated from CSV files)
 *.translation
