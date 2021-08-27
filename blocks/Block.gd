@@ -1,10 +1,13 @@
 extends Node2D
 
+
+const drop_speed = 0.01
+const final_delay = 0.5
+
 export (int) var grid_width = 10
 export (int) var grid_heigth = 20
 export (int) var cell_size = 64
 export (NodePath) var grid_path
-export (NodePath) var timer_path
 
 var bounds
 var shapes
@@ -12,13 +15,13 @@ var tile_id
 signal killed
 
 var grid : TileMap
-var timer : Timer
+var timer : Timer # used for moving the block down the grid
+var final_timer : Timer
 
 var move_counter
 export var move_cooldown = 0.07
 
 enum {MOVING, STOPPED}
-var state
 
 var blocks = [["Block1", "Block2", "Block3", "Block4"],
 				["Block5", "Block6", "Block7", "Block8"],
@@ -27,17 +30,27 @@ var blocks = [["Block1", "Block2", "Block3", "Block4"],
 
 var current_shape = 0
 
+var normal_speed
+
 func _ready():
 	grid = get_node(grid_path)
-	timer = get_node(timer_path)
+	
+	timer = Timer.new()
+	timer.one_shot = false
 	timer.connect("timeout", self, "process_timer")
+	add_child(timer)
+	
+	final_timer = Timer.new()
+	final_timer.wait_time = final_delay
+	final_timer.one_shot = true
+	final_timer.connect("timeout", self, "kill_block")
+	add_child(final_timer)
+	
 	move_counter = 0
-	state = MOVING
 
 
 func _process(delta):
 	# Rotate
-	var rot_dir = 0
 	if Input.is_action_just_pressed("rotate"):
 		prev_shape()
 	
@@ -55,19 +68,13 @@ func _process(delta):
 				position.x -= cell_size * move_dir
 			else:
 				move_counter = move_cooldown
-				var clamped_pos = clamp(position.x, 
-								bounds[current_shape][0] * cell_size, 
-								(grid_width * cell_size) - (bounds[current_shape][1] * cell_size))
-				# move was not reverted reset the timer 
-				if clamped_pos == position.x and state == STOPPED:
-					timer.start()
-				position.x = clamped_pos
+				clam_position_x()
 		
 	# Drop
-	if Input.is_action_pressed("drop"):
-		timer.stop()
-		timer.wait_time = 0.01
-		timer.start()					
+	if Input.is_action_just_pressed("drop"):
+		set_timer_wait_time(drop_speed)
+	if Input.is_action_just_released("drop"):
+		set_timer_wait_time(normal_speed)
 
 
 func next_shape():
@@ -94,9 +101,7 @@ func change_shape(shape):
 					get_node(blocks[row][col]).visible = true
 				else:
 					get_node(blocks[row][col]).visible = false
-		# restart the timer if the block stopped but was still able to rotate
-		if state == STOPPED:
-			timer.start()
+		clam_position_x()
 
 
 func clear_shape():
@@ -131,19 +136,24 @@ func kill_block():
 
 
 func process_timer():
-	if state == MOVING:
-		position.y += cell_size
-		# If the block can no longer move down:
-		# revert the position change and start final timer
-		if not check_shape():
-			position.y -= cell_size
-			state = STOPPED
-			set_timer_wait_time(0.5)
+	position.y += cell_size
+	# If the block can no longer move down:
+	# revert the position change and start final timer if not already started
+	if not check_shape():
+		position.y -= cell_size
+		if final_timer.is_stopped():
+			final_timer.start()
 	else:
-		kill_block()
+		final_timer.stop()
 
 
 func set_timer_wait_time(time):
 	timer.stop()
 	timer.wait_time = time
 	timer.start()
+
+
+func clam_position_x():
+	position.x = clamp(position.x, 
+								bounds[current_shape][0] * cell_size, 
+								(grid_width * cell_size) - (bounds[current_shape][1] * cell_size))

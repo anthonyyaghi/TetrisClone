@@ -1,4 +1,4 @@
-* DONE All block [6/6]
+* All block [6/6]
   CLOSED: [2021-08-26 Thu 22:29]
 ** Reference Image
 *** [[file:reference.jpg]]
@@ -14,7 +14,7 @@
    CLOSED: [2021-08-11 Wed 18:54]
 ** DONE Add different color/graphics for each block
    CLOSED: [2021-08-23 Mon 19:22]
-* DONE Difficulty levels [2/2]
+* Difficulty levels [2/2]
   CLOSED: [2021-08-26 Thu 22:29]
 | Level | sec/grid |
 |-------+----------|
@@ -38,7 +38,7 @@ Increase the level each 10 lines cleared
    CLOSED: [2021-08-23 Mon 19:42]
 ** DONE Implement difficulty table above
    CLOSED: [2021-08-23 Mon 20:09]
-* DONE Game Over [3/3]
+* Game Over [3/3]
   CLOSED: [2021-08-26 Thu 22:29]
 ** DONE Detect when the game is over  
    CLOSED: [2021-08-24 Tue 09:16]
@@ -46,27 +46,36 @@ Increase the level each 10 lines cleared
    CLOSED: [2021-08-24 Tue 12:05]
 ** DONE Restart Game
    CLOSED: [2021-08-24 Tue 10:36]
-* DONE Next block and Hold queue [2/2]
+* Next block and Hold queue [2/2]
   CLOSED: [2021-08-26 Thu 22:29]
 ** DONE print what the next blocks will be
    CLOSED: [2021-08-26 Thu 12:18]
 ** DONE implement Hold queue
    CLOSED: [2021-08-26 Thu 12:18]
 * DONE User Interface and grid look
-  CLOSED: [2021-08-26 Thu 22:29]
+  CLOSED: [2021-08-27 Fri 12:37]
 * TODO Main Menu
 * TODO Multiplayer
 
 
 
 
-* Bugs [3/3]
+* Bugs [9/9]
 ** DONE ONGOING Blocks can move sideways and rotate into each other
    CLOSED: [2021-08-14 Sat 08:48]
 ** DONE ONGOING add a 0.5 sec timer that start when the piece reaches the bottom to set finalize the piece location, also reset the timer if the piece is moved or rotated
    CLOSED: [2021-08-24 Tue 09:02]
 ** DONE Fix spawn block position according to reference image
    CLOSED: [2021-08-24 Tue 09:08]
-** TODO Activate dropping when key is down and disable it when key is up
-** TODO After hitting a piece and the player can still move, the blob stops going down ! it should
-** TODO The 0.5 timer at the end should be increased to 1 sec or something and not reset on move/rotate
+** DONE Fix shape bounds and clamping function for block movement
+   CLOSED: [2021-08-27 Fri 09:20]
+** DONE Activate dropping when key is down and disable it when key is up
+   CLOSED: [2021-08-27 Fri 09:35]
+** DONE The 0.5 timer at the end should be increased to 1 sec or something and not reset on move/rotate
+   CLOSED: [2021-08-27 Fri 09:40]
+** DONE Next block not showing before dropping the first one
+   CLOSED: [2021-08-27 Fri 09:43]
+** DONE After hitting a piece and the player can still move, the block stops going down even if there is an empty space! it should
+   CLOSED: [2021-08-27 Fri 12:33]
+** DONE The block can rotate and be outside the grid zone until a movement key is pressed, fix by clamping the position after a rotation as well
+   CLOSED: [2021-08-27 Fri 12:37]

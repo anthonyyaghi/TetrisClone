@@ -70,7 +70,7 @@ func create_new_block(block_id = -1):
 		if not active_block.check_shape():
 			yield(game_over(), "completed")
 			return
-			
+		active_block.normal_speed = speed
 		active_block.set_timer_wait_time(speed)
 		active_block.connect("killed", self, "block_killed")
 
@@ -104,8 +104,8 @@ func start_new_game():
 	holded_block_id = -1
 	state = PLAYING
 	speed = levels[level]
-	create_new_block()
 	emit_signal("new_game")
+	create_new_block()
 
 
 func random_next_block():

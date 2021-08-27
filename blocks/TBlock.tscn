@@ -5,7 +5,6 @@
 
 [node name="TBlock" type="Node2D"]
 script = ExtResource( 2 )
-timer_path = NodePath("Timer")
 
 [node name="Block1" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -85,5 +84,3 @@ offset = Vector2( 32, 32 )
 position = Vector2( 192, 192 )
 texture = ExtResource( 1 )
 offset = Vector2( 32, 32 )
-
-[node name="Timer" type="Timer" parent="."]
