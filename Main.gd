@@ -19,6 +19,7 @@ var active_block : Node2D
 var active_block_id
 
 var score = 0
+var total_lines_cleared = 0
 var level : int = 0
 var levels = [0.72, 0.64, 0.58, 0.5, 0.44, 0.36, 0.3, 0.22, 0.14, 0.1, 0.08, 
 			0.08, 0.08, 0.06, 0.06, 0.06, 0.04, 0.04, 0.04, 0.02]
@@ -42,7 +43,7 @@ func _ready():
 	blocks.append(load("res://blocks/OBlock.tscn"))
 
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("hold") and can_hold:
 		var block_id = holded_block_id
 		holded_block_id = active_block_id
@@ -73,6 +74,8 @@ func create_new_block(block_id = -1):
 		active_block.normal_speed = speed
 		active_block.set_timer_wait_time(speed)
 		active_block.connect("killed", self, "block_killed")
+		active_block.connect("soft_drop", self, "soft_drop_score")
+		active_block.connect("hard_drop", self, "hard_drop_score")
 
 
 func game_over():
@@ -100,6 +103,7 @@ func start_new_game():
 	emit_signal("score_change", score)
 	level = 0
 	emit_signal("level_change", level)
+	total_lines_cleared = 0
 	random_next_block()
 	holded_block_id = -1
 	state = PLAYING
@@ -135,12 +139,6 @@ func clear_row(row):
 
 func update_score(increment : int):
 	score += increment
-	var new_level = clamp(score / 10, 0, 19)
-	if new_level != level:
-		level = new_level
-		speed = levels[level]
-		emit_signal("level_change", level)
-		
 	emit_signal("score_change", score)
 
 
@@ -158,6 +156,31 @@ func update_grid():
 			cleared_rows.append(row)
 	
 	if not cleared_rows.empty():
-		for row in range(cleared_rows.size() - 1):
+		var nb_rows = cleared_rows.size()
+		for row in range(nb_rows - 1):
 			clear_row(cleared_rows[row])
-		yield(clear_row(cleared_rows[cleared_rows.size() - 1]), "completed")
+		yield(clear_row(cleared_rows[nb_rows - 1]), "completed")
+
+		var base_inc = 800
+		if nb_rows == 1:
+			base_inc = 100
+		elif nb_rows == 2:
+			base_inc = 300
+		elif nb_rows == 3:
+			base_inc = 500
+		update_score(level * base_inc)
+
+		total_lines_cleared += nb_rows
+		var new_level = clamp(total_lines_cleared / 10, 0, 19)
+		if new_level != level:
+			level = new_level
+			speed = levels[level]
+			emit_signal("level_change", level)
+
+
+func soft_drop_score():
+	update_score(1)
+
+
+func hard_drop_score(nb_cells):
+	update_score(2 * nb_cells)

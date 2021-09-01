@@ -1,0 +1,80 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://fonts/elfboy_300.tres" type="DynamicFont" id=1]
+[ext_resource path="res://buttons/PlayButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://buttons/ExitButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Menu.gd" type="Script" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "fadein"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[node name="TitleScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 350
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleLabel" type="Label" parent="Menu"]
+margin_right = 968.0
+margin_bottom = 238.0
+custom_fonts/font = ExtResource( 1 )
+text = "TiTRiS"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" parent="Menu" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 588.0
+margin_right = 968.0
+margin_bottom = 713.0
+shortcut_in_tooltip = true
+
+[node name="ExitButton" parent="Menu" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 1063.0
+margin_right = 968.0
+margin_bottom = 1188.0
+shortcut_in_tooltip = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect"]
+anims/fadein = SubResource( 1 )
+
+[connection signal="pressed" from="Menu/ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="animation_finished" from="ColorRect/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

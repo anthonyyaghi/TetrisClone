@@ -13,6 +13,8 @@ var bounds
 var shapes
 var tile_id
 signal killed
+signal soft_drop
+signal hard_drop(nb_cells)
 
 var grid : TileMap
 var timer : Timer # used for moving the block down the grid
@@ -31,6 +33,7 @@ var blocks = [["Block1", "Block2", "Block3", "Block4"],
 var current_shape = 0
 
 var normal_speed
+var is_soft_dropping
 
 func _ready():
 	grid = get_node(grid_path)
@@ -70,11 +73,23 @@ func _process(delta):
 				move_counter = move_cooldown
 				clam_position_x()
 		
-	# Drop
-	if Input.is_action_just_pressed("drop"):
+	# Soft drop
+	if Input.is_action_just_pressed("soft_drop"):
 		set_timer_wait_time(drop_speed)
-	if Input.is_action_just_released("drop"):
+		is_soft_dropping = true
+	if Input.is_action_just_released("soft_drop"):
 		set_timer_wait_time(normal_speed)
+		is_soft_dropping = false
+
+	# Hard drop
+	if Input.is_action_just_pressed("hard_drop"):
+		var nb_cells = 0
+		while check_shape():
+			nb_cells += 1
+			position.y += cell_size
+		position.y -= cell_size
+		nb_cells -= 1
+		emit_signal("hard_drop", nb_cells)
 
 
 func next_shape():
@@ -123,6 +138,13 @@ func check_shape():
 	return true
 
 func kill_block():
+	position.y += cell_size
+	var can_still_move = check_shape()
+	position.y -= cell_size
+
+	if can_still_move:
+		return
+
 	var grid_position = grid.world_to_map(position)
 	var shape = shapes[current_shape]
 	
@@ -144,7 +166,10 @@ func process_timer():
 		if final_timer.is_stopped():
 			final_timer.start()
 	else:
-		final_timer.stop()
+		if not final_timer.is_stopped():
+			final_timer.stop()
+		if is_soft_dropping:
+			emit_signal("soft_drop")
 
 
 func set_timer_wait_time(time):

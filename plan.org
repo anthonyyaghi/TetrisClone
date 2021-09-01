@@ -1,4 +1,4 @@
-* All block [6/6]
+* All block [0/0]
   CLOSED: [2021-08-26 Thu 22:29]
 ** Reference Image
 *** [[file:reference.jpg]]
@@ -54,13 +54,27 @@ Increase the level each 10 lines cleared
    CLOSED: [2021-08-26 Thu 12:18]
 * DONE User Interface and grid look
   CLOSED: [2021-08-27 Fri 12:37]
-* TODO Main Menu
+* DONE Hard drop
+* DONE Scoring system
+
+| Action      | Point       |
+|-------------+-------------|
+| Single      | 100 x level |
+| Double      | 300 x level |
+| Triple      | 500 x level |
+| Tetris      | 800 x level |
+| Soft drop   | 1 per cell  |
+| Hard drop   | 2 per cell  |
+
+* Main Menu [0/0]
+** TODO UI without functionality
+** TODO Controls menu
 * TODO Multiplayer
 
 
 
 
-* Bugs [9/9]
+* Bugs [10/10]
 ** DONE ONGOING Blocks can move sideways and rotate into each other
    CLOSED: [2021-08-14 Sat 08:48]
 ** DONE ONGOING add a 0.5 sec timer that start when the piece reaches the bottom to set finalize the piece location, also reset the timer if the piece is moved or rotated
@@ -79,3 +93,4 @@ Increase the level each 10 lines cleared
    CLOSED: [2021-08-27 Fri 12:33]
 ** DONE The block can rotate and be outside the grid zone until a movement key is pressed, fix by clamping the position after a rotation as well
    CLOSED: [2021-08-27 Fri 12:37]
+** DONE Check if the block can still move right before killing it

@@ -46,3 +46,7 @@ func new_game():
 func _on_Button_pressed():
 	emit_signal("start_game")
 	$CenterContainer/Button.visible = false
+
+
+func _on_BackButton_pressed():
+	get_tree().change_scene("res://Menu.tscn")
